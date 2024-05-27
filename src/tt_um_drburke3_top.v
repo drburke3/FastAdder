@@ -144,8 +144,8 @@ module gray_cell(G4_3,P4_3,G2_2,G4_2);
   wire signal;
   assign signal = P4_3 & G2_2;
 // original naive structural Verilog code
-// assign G4_2=signal | G4_3;
-  assign G4_2 = ~(~signal & ~G4_3);
+  assign G4_2=signal | G4_3;
+//  assign G4_2 = ~(~signal & ~G4_3);
   
   
 endmodule
@@ -158,7 +158,7 @@ module black_cell(G6_8,P6_8,G7_10,P7_10,G6_10,P6_10);
   wire signal;
   assign signal = P6_8 & G7_10;
 // original naive structural Verilog code
-// assign G6_10=signal | G6_8;
-  assign G6_10 = ~(~signal & ~G6_8);
+   assign G6_10=signal | G6_8;
+//  assign G6_10 = ~(~signal & ~G6_8);
   assign P6_10 = P6_8 & P7_10;
 endmodule
