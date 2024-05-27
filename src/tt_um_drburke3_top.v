@@ -109,9 +109,9 @@ assign p[0][0]=1'b0;
 
 always @(posedge clock)
 begin
-	if(reset_n == 1'b0)
+	if(reset_n == 1'b1)
         begin
-            sum <= 8'b10100000;      
+            sum <= 8'b00000000;      
         end 
 	else if(enable == 1'b1)
         begin
