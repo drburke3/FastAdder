@@ -109,20 +109,30 @@ assign p[0][0]=1'b0;
 
 always @(posedge clock)
 begin
-	if(reset_n == 1'b1)
+	if(reset_n == 1'b0)
         begin
-            sum <= 8'b00000000;      
+            sum = 8'b00000000;      
         end 
 	else if(enable == 1'b1)
         begin
-           	sum[0] <= g[0][0]^p[1][1];
-		    sum[1] <= g[1][0]^p[2][2];
+         /* original naive structural Verilog code
+            	sum[0] <= g[0][0]^p[1][1];
+		sum[1] <= g[1][0]^p[2][2];
 	       	sum[2] <= g[2][0]^p[3][3];
 	      	sum[3] <= g[3][0]^p[4][4];
 	       	sum[4] <= g[4][0]^p[5][5];
 	       	sum[5] <= g[5][0]^p[6][6];
 	       	sum[6] <= g[6][0]^p[7][7];
-	       	sum[7] <= g[7][0]^p[8][8];   
+	       	sum[7] <= g[7][0]^p[8][8];  
+	     */
+	        sum[0] <= ~(~g[0][0]&~p[1][1]);
+	        sum[1] <= ~(~g[1][0]&~p[2][2]);
+	       	sum[2] <= ~(~g[2][0]&~p[3][3]);
+	      	sum[3] <= ~(~g[3][0]&~p[4][4]);
+	       	sum[4] <= ~(~g[4][0]&~p[5][5]);
+	       	sum[5] <= ~(~g[5][0]&~p[6][6]);
+	       	sum[6] <= ~(~g[6][0]&~p[7][7]);
+	       	sum[7] <= ~(~g[7][0]&~p[8][8]);   
     end 
 end
 	
@@ -133,7 +143,9 @@ module generate_propagate(A,B,G,P);
 input A,B;
 output G,P;
 assign G = A&B;
-assign P = A^B;
+// original naive structural Verilog code
+// assign P = A^B;
+assign P = ~(~A & ~B);
 endmodule
 
 // Gray module code
@@ -144,8 +156,8 @@ module gray_cell(G4_3,P4_3,G2_2,G4_2);
   wire signal;
   assign signal = P4_3 & G2_2;
 // original naive structural Verilog code
-  assign G4_2=signal | G4_3;
-//  assign G4_2 = ~(~signal & ~G4_3);
+// assign G4_2=signal | G4_3;
+  assign G4_2 = ~(~signal & ~G4_3);
   
   
 endmodule
@@ -158,7 +170,7 @@ module black_cell(G6_8,P6_8,G7_10,P7_10,G6_10,P6_10);
   wire signal;
   assign signal = P6_8 & G7_10;
 // original naive structural Verilog code
-   assign G6_10=signal | G6_8;
-//  assign G6_10 = ~(~signal & ~G6_8);
-  assign P6_10 = P6_8 & P7_10;
+// assign G6_10=signal | G6_8;
+  assign G6_10 = ~(~signal & ~G6_8);
+  assign P6_10=P6_8 & P7_10;
 endmodule
