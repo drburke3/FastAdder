@@ -43,7 +43,8 @@ endmodule
 //                                                                                                         //
 // This component is bit-sliced expandable, structural code                                                //
 // re-expressed in the AND-INV format to target optimized ABC9                                             //
-// AIG graph synthesis in OpenLane.                                                                        //
+// AIG graph synthesis in OpenLane (currently commented out until ABC9 is implemented                      //
+// since results can be incorrect without precise prop delays).                                            //
 //                                                                                                         //
 // The element is scaled by repeating the Black-Gray cell modules                                          // 
 // as needed taking the outputs from the proceeding bit as inputs                                          // 
@@ -144,8 +145,9 @@ input A,B;
 output G,P;
 assign G = A&B;
 // original naive structural Verilog code
-// assign P = A^B;
-assign P = ~(~A & ~B);
+assign P = A^B;
+// future AIG code
+// assign P = ~(~A & ~B);
 endmodule
 
 // Gray module code
@@ -156,8 +158,9 @@ module gray_cell(G4_3,P4_3,G2_2,G4_2);
   wire signal;
   assign signal = P4_3 & G2_2;
 // original naive structural Verilog code
-// assign G4_2=signal | G4_3;
-  assign G4_2 = ~(~signal & ~G4_3);
+  assign G4_2=signal | G4_3;
+// future AIG code
+// assign G4_2 = ~(~signal & ~G4_3);
   
   
 endmodule
@@ -170,7 +173,8 @@ module black_cell(G6_8,P6_8,G7_10,P7_10,G6_10,P6_10);
   wire signal;
   assign signal = P6_8 & G7_10;
 // original naive structural Verilog code
-// assign G6_10=signal | G6_8;
-  assign G6_10 = ~(~signal & ~G6_8);
+  assign G6_10=signal | G6_8;
+// future AIG code
+// assign G6_10 = ~(~signal & ~G6_8);
   assign P6_10=P6_8 & P7_10;
 endmodule
