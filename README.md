@@ -12,7 +12,7 @@ This circuit takes two 8b quantities and outputs the sum of the inputs.
 
 The anticipated usage is to 1.) generate a sum-of-absolute-differences of a vector component of a prospective value referenced to a trained sample, or 2.) accumulate the sum an incoming value to a running total locally, therefore it should compact and fast since it will be replicated many thousands of times.
 
-This component is based upon documented Ishaan Yadav's N-bit-sklansky-adder-generator expandable, structural code re-expressed in AND-INV format to target optimized ABC9 AIG graph synthesis in OpenLane2.
+This component is based upon documented Ishaan Yadav's N-bit-sklansky-adder-generator expandable, structural code re-expressed in AND-INV format to target optimized ABC9 AIG graph synthesis in OpenLane2 which is commented out a present until results can be verified (can generate incorrect output if prop delays are wrong).
 (https://github.com/fluffybird2323/n-bit-sklansky-adder-code-generator-notebook/tree/master)
 
 ## Implementation
